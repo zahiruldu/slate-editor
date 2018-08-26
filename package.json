@@ -1,0 +1,22 @@
+{
+  "name": "slatejs",
+  "version": "0.1.0",
+  "private": true,
+  "dependencies": {
+    "emotion": "^9.2.6",
+    "immutable": "^3.8.2",
+    "is-hotkey": "^0.1.3",
+    "react": "^16.4.2",
+    "react-dom": "^16.4.2",
+    "react-emotion": "^9.2.6",
+    "react-scripts": "1.1.5",
+    "slate": "^0.40.2",
+    "slate-react": "^0.18.3"
+  },
+  "scripts": {
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test --env=jsdom",
+    "eject": "react-scripts eject"
+  }
+}
