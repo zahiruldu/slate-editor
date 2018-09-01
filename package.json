@@ -12,6 +12,7 @@
     "react-dom": "^16.4.2",
     "react-emotion": "^9.2.6",
     "react-scripts": "1.1.5",
+    "reactjs-popup": "^1.2.0",
     "slate": "^0.40.2",
     "slate-react": "^0.18.3"
   },

@@ -15,6 +15,7 @@ import { Button, Icon, Toolbar } from './components';
 import imageExtensions from 'image-extensions';
 import isUrl from 'is-url';
 import styled from 'react-emotion';
+import Popup from "reactjs-popup";
 
 
 
@@ -110,7 +111,21 @@ const schema = {
 }
 //  Image block ends
 
-
+/**
+ * Converting image to base64 string.
+ * @type {Object} file
+ * @return {callback} returns callback with file and base64 string
+ */
+const toBase64=function (file , callBack) {
+    let reader = new FileReader();
+    reader.readAsDataURL(file);
+    reader.onload = function () {
+        callBack(file,reader.result);
+    };
+    reader.onerror = function (error) {
+        console.log('Error: ', error);
+    };
+};
 
 
 class App extends React.Component {
@@ -120,6 +135,7 @@ class App extends React.Component {
     }
 
     onChange = ({value})=> {
+        //console.log('value',value)
         this.setState({value})
     }
 
@@ -149,6 +165,23 @@ class App extends React.Component {
 
 
 
+
+    fileChangedHandler = (event) => {
+        this.setState({selectedFile: event.target.files[0]})
+    }
+
+
+
+    uploadHandler = () => {
+        toBase64(this.state.selectedFile,(file,base)=>{
+          //console.log(base)
+            const change = this.state.value.change().call(insertImage, base)
+            this.onChange(change)
+        });
+    }
+
+
+
   render() {
     return (
       <div className="App">
@@ -171,6 +204,14 @@ class App extends React.Component {
               <Button onMouseDown={this.onClickImage}>
                   <Icon>image</Icon>
               </Button>
+
+              <Popup trigger={<Button><Icon>computer</Icon></Button>} position="top center">
+                  <div>
+                      <input type="file" onChange={this.fileChangedHandler} accept="image/*"/>
+                      <button onClick={this.uploadHandler}>Upload!</button>
+                  </div>
+              </Popup>
+
           </Toolbar>
 
           <Editor
@@ -188,6 +229,8 @@ class App extends React.Component {
                   renderNode={this.renderNode}
                   renderMark={this.renderMark}
           />
+
+
 
       </div>
     );
@@ -318,7 +361,8 @@ class App extends React.Component {
      */
 
     onKeyDown = (event, change) => {
-        let mark
+        let mark;
+
 
         if (isBoldHotkey(event)) {
             mark = 'bold'
