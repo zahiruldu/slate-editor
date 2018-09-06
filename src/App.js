@@ -38,6 +38,8 @@ const isBoldHotkey = isKeyHotkey('mod+b')
 const isItalicHotkey = isKeyHotkey('mod+i')
 const isUnderlinedHotkey = isKeyHotkey('mod+u')
 const isCodeHotkey = isKeyHotkey('mod+`')
+const isTabHotKey = isKeyHotkey('tab')
+const isTabHotKeyDown = isKeyHotkey('shift+tab')
 
 
 
@@ -126,6 +128,15 @@ const toBase64=function (file , callBack) {
         console.log('Error: ', error);
     };
 };
+
+
+function CodeNode(props) {
+    return (
+        <pre {...props.attributes}>
+      <code>{props.children}</code>
+    </pre>
+    )
+}
 
 
 class App extends React.Component {
@@ -296,6 +307,9 @@ class App extends React.Component {
     renderNode = props => {
         const { attributes, children, node, isFocused } = props
 
+        console.log('text',children)
+        console.log('child',props)
+
         switch (node.type) {
             case 'block-quote':
                 return <blockquote {...attributes}>{children}</blockquote>
@@ -328,6 +342,9 @@ class App extends React.Component {
     renderMark = props => {
         const { children, mark, attributes } = props
 
+        console.log('hello',mark.type)
+        // make tabbing effects here
+
         switch (mark.type) {
             case 'bold':
                 return <strong {...attributes}>{children}</strong>
@@ -337,6 +354,10 @@ class App extends React.Component {
                 return <em {...attributes}>{children}</em>
             case 'underlined':
                 return <u {...attributes}>{children}</u>
+            case 'tab':
+                return  <li {...attributes}>{children}
+                    <ul><li {...attributes}>{children}</li></ul>
+                </li>
             default:
 
         }
@@ -363,6 +384,10 @@ class App extends React.Component {
     onKeyDown = (event, change) => {
         let mark;
 
+        // console.log('tabbing',isTabHotKey(event))
+        // console.log('down tabbing',isTabHotKeyDown(event))
+        console.log(change.value)
+
 
         if (isBoldHotkey(event)) {
             mark = 'bold'
@@ -372,6 +397,12 @@ class App extends React.Component {
             mark = 'underlined'
         } else if (isCodeHotkey(event)) {
             mark = 'code'
+        } else if (isTabHotKeyDown(event)) {
+            console.log('tabdown')
+            mark = 'tabdown'
+        } else if (isTabHotKey(event)) {
+            console.log('tab')
+            mark = 'tab'
         } else {
             return
         }

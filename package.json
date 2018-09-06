@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "draft-js": "^0.10.5",
     "emotion": "^9.2.6",
     "image-extensions": "^1.1.0",
     "immutable": "^3.8.2",
